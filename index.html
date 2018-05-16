@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title>Dashboard</title>
+		<style>
+			body {
+				font-size: 12pt;
+			}
+			ul {
+				list-style-type: none;
+				margin: 0;
+				padding: 0;
+			}
+			li:first-child {
+				font-size: 10em;
+			}
+			label {
+				margin: 0 3px 0 16px;
+				color: #888;
+			}
+			label:first-child {
+				margin-left: 0;
+			}
+		</style>
+	<body>
+		<div id="stats"></div>
+		<ul id="list"></ul>
+		<script src="lib.js"></script>
+		<script>
+			class Roulette {
+				constructor() {
+					this.min = 1;
+					this.max = 6;
+					this.counts = [];
+					this.initCounts();
+					this.main();
+				}
+				initCounts() {
+					for (let i = 0; i <= this.max; i++) {
+							this.counts[i] = 0;
+					}
+				}
+				generateCount(num, min, max) {
+					let tpl = '';
+
+					this.counts[num]++;
+
+					for (let i = this.min; i <= this.max; i++) {
+						tpl = `${tpl}<label>${i}:</label><span>${this.counts[i]}</span>`;
+					}
+
+					return tpl;
+				}
+				main() {
+					setInterval(() => {
+						const num = rand(this.min, this.max);
+						const list = new Node(document.getElementById('list'));
+						const stats = new Node(document.getElementById('stats'));
+
+						stats.insert(this.generateCount(num, this.min, this.max));
+						list.prepend(`<li>${num}</li>`);
+					}, 1000);
+				}
+			}
+			new Roulette;
+		</script>
+	</body>
+</html>
